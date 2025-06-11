@@ -1,7 +1,7 @@
 
 const prisma = require('../model/model');
 const asyncHandler = require('express-async-handler');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); 
 
 //REGISTER*******************
 
