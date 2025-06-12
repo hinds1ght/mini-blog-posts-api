@@ -28,9 +28,16 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 // LOGIN**********************
 
-exports.login = (req, res)=>{
-    res.send('login')
-}
+exports.login = asyncHandler(async (req, res)=>{
+    const { email, password} = req.body;
+
+    const user = await prisma.user.findUnique({where: {email}})
+    if (!user || !(await bcrypt.compare(password, user.password))){
+        return res.status(400).json({message: 'Invalid Credentials'})
+    }
+
+    res.json({user})
+})
 
 // POSTS*******************
 
