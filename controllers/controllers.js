@@ -1,7 +1,7 @@
-
 const prisma = require('../model/model');
 const asyncHandler = require('express-async-handler');
-const bcrypt = require('bcryptjs'); 
+const bcrypt = require('bcryptjs');
+const generateToken = require('../auth/generateToken');
 
 //REGISTER*******************
 
@@ -36,11 +36,15 @@ exports.login = asyncHandler(async (req, res)=>{
         return res.status(400).json({message: 'Invalid Credentials'})
     }
 
-    res.json({user})
+    const { accessToken } = generateToken(user);
+
+    res.json({token: accessToken,
+                user: {id: user.id}
+            });
 })
 
 // POSTS*******************
 
 exports.posts = (req, res)=>{
-    res.send('posts')
+    res.send('posts!!!!')
 }
