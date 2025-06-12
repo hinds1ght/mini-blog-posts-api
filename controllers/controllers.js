@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const generateToken = require('../auth/generateToken');
 
-//REGISTER*******************
+// REGISTER**************************************************
 
 exports.register = asyncHandler(async (req, res, next) => {
         const { email, password } = req.body;
@@ -26,7 +26,7 @@ exports.register = asyncHandler(async (req, res, next) => {
             res.json(newUser)
 });
 
-// LOGIN**********************
+// LOGIN*****************************************************
 
 exports.login = asyncHandler(async (req, res)=>{
     const { email, password} = req.body;
@@ -36,14 +36,56 @@ exports.login = asyncHandler(async (req, res)=>{
         return res.status(400).json({message: 'Invalid Credentials'})
     }
 
-    const { accessToken } = generateToken(user);
+    const { accessToken, refreshToken } = generateToken(user);
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true, // true in production
+        sameSite: 'Strict', // or 'Lax' depending on frontend/backend domains
+        path: '/api/auth/refresh', // only sent to the refresh route
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
 
     res.json({token: accessToken,
                 user: {id: user.id}
             });
 })
 
-// POSTS*******************
+// REFRESH TOKEN REQUEST*********************************
+
+exports.refresh = asyncHandler(async (req, res) => {
+    const token = req.cookies.refreshToken;
+    if (!token) return res.sendStatus(401);
+  
+    try {
+      const payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+  
+      const accessToken = jwt.sign(
+        { id: payload.id },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '15m' }
+      );
+  
+      res.json({ accessToken });
+    } catch (err) {
+      return res.status(403).json({ message: 'Invalid refresh token' });
+    }
+  });
+
+// LOGOUT******************************************
+
+exports.logout = (req, res) => {
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'Strict',
+      path: '/api/auth/refresh'
+    });
+  
+    res.sendStatus(204);
+  };  
+
+// POSTS********************************
 
 exports.posts = (req, res)=>{
     res.send('posts!!!!')
