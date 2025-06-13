@@ -1,6 +1,7 @@
 const prisma = require('../model/model');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 const generateToken = require('../auth/generateToken');
 
 // REGISTER**************************************************
@@ -40,7 +41,7 @@ exports.login = asyncHandler(async (req, res)=>{
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: true, // true in production
+        secure: false, // true in production
         sameSite: 'Strict', // or 'Lax' depending on frontend/backend domains
         path: '/api/auth/refresh', // only sent to the refresh route
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -56,20 +57,23 @@ exports.login = asyncHandler(async (req, res)=>{
 exports.refresh = asyncHandler(async (req, res) => {
     const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+      if (err) {
+        console.log("Invalid refresh token:", err.message);
+        return res.status(403).json({ message: 'Invalid refresh token' });
+      }
   
-    try {
-      const payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+      //console.log("payload", payload);
   
       const accessToken = jwt.sign(
         { id: payload.id },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '15m' }
+        { expiresIn: '15s' }
       );
   
       res.json({ accessToken });
-    } catch (err) {
-      return res.status(403).json({ message: 'Invalid refresh token' });
-    }
+    });
   });
 
 // LOGOUT******************************************
@@ -88,5 +92,5 @@ exports.logout = (req, res) => {
 // POSTS********************************
 
 exports.posts = (req, res)=>{
-    res.send('posts!!!!')
+    res.send("POSTS!!!!")
 }
