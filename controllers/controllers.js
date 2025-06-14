@@ -55,26 +55,30 @@ exports.login = asyncHandler(async (req, res)=>{
 // REFRESH TOKEN REQUEST*********************************
 
 exports.refresh = asyncHandler(async (req, res) => {
-    const token = req.cookies.refreshToken;
-    if (!token) return res.sendStatus(401);
+  const token = req.cookies.refreshToken;
+  if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
-      if (err) {
-        console.log("Invalid refresh token:", err.message);
-        return res.status(403).json({ message: 'Invalid refresh token' });
-      }
-  
-      //console.log("payload", payload);
-  
-      const accessToken = jwt.sign(
-        { id: payload.id },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '15s' }
-      );
-  
-      res.json({ accessToken });
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, payload) => {
+    if (err) {
+      console.log("Invalid refresh token:", err.message);
+      return res.status(403).json({ message: 'Invalid refresh token' });
+    }
+
+    const accessToken = jwt.sign(
+      { id: payload.id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '15s' }
+    );
+
+    // ✅ Fetch user from DB
+    const user = await prisma.user.findUnique({
+      where: { id: payload.id },
+      select: { id: true, email: true },
     });
+
+    res.json({ accessToken, user });
   });
+});
 
 // LOGOUT******************************************
 
