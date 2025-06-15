@@ -70,7 +70,6 @@ exports.refresh = asyncHandler(async (req, res) => {
       { expiresIn: '15s' }
     );
 
-    // ✅ Fetch user from DB
     const user = await prisma.user.findUnique({
       where: { id: payload.id },
       select: { id: true, email: true },
@@ -95,6 +94,9 @@ exports.logout = (req, res) => {
 
 // POSTS********************************
 
-exports.posts = (req, res)=>{
-    res.send("POSTS!!!!")
-}
+exports.posts = asyncHandler(async (req, res)=>{
+    const data = await fetch("https://jsonplaceholder.typicode.com/posts") 
+    const postList = await data.json();
+
+    res.json(postList)
+  })  
