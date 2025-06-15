@@ -95,8 +95,13 @@ exports.logout = (req, res) => {
 // POSTS********************************
 
 exports.posts = asyncHandler(async (req, res)=>{
-    const data = await fetch("https://jsonplaceholder.typicode.com/posts") 
-    const postList = await data.json();
+  const page = parseInt(req.query.page) || 1
+  const limit = 10 // items per page
+  const start = (page - 1) * limit
 
-    res.json(postList)
+  const data = await fetch("https://jsonplaceholder.typicode.com/posts")
+  const allPosts = await data.json()
+
+  const paginatedPosts = allPosts.slice(start, start + limit)
+  res.json(paginatedPosts)
   })  
