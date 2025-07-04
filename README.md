@@ -36,3 +36,10 @@ A minimalist REST API for user authentication and protected blog post access usi
 - Access Protected Routes: Use Bearer <accessToken> header
 - Refresh Token: Call /auth/refresh to get a new access token
 - Logout: Clears the refresh token
+
+---
+
+## Author
+
+Made by [(https://github.com/hinds1ght/)]
+Feel free to fork and contribute
