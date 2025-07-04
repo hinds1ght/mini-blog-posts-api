@@ -61,4 +61,3 @@ Deployed on [Render](https://render.com), this API demonstrates **JWT-based auth
 Questions or feedback?
 
 Email: gilyu619@gmail.com 
-GitHub: [https://github.com/hinds1ght]
