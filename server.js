@@ -6,7 +6,7 @@ const app = express();
 
 app.use(cors({
     origin: 'http://localhost:5173', 
-    credentials: true                // allow credentials (cookies, auth headers)
+    credentials: true                
   }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -16,4 +16,6 @@ const router = require('./routes/routes');
 
 app.use('/api', router);
 
-app.listen(2025, ()=> console.log('Server up'));
+const PORT = process.env.PORT || 2025;
+app.listen(PORT, ()=> console.log(`Server up on port: ${PORT}`));
+

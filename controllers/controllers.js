@@ -43,7 +43,7 @@ exports.login = asyncHandler(async (req, res)=>{
         httpOnly: true,
         secure: false,
         sameSite: 'Strict', 
-        path: '/api/auth/refresh', // only sent to the refresh route
+        path: '/api/auth/refresh', 
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
