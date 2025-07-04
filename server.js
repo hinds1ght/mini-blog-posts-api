@@ -18,4 +18,3 @@ app.use('/api', router);
 
 const PORT = process.env.PORT || 2025;
 app.listen(PORT, ()=> console.log(`Server up on port: ${PORT}`));
-
