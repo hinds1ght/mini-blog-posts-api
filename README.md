@@ -1,46 +1,64 @@
-# mini_blog_posts_api
+# Mini Blog Posts API
 
-A minimalist REST API for user authentication and protected blog post access using **Node.js**, **Express**, **PostgreSQL**, and **Prisma ORM**. It uses **JWT tokens** for secure authentication and refresh tokens stored in cookies.
+A simple authentication API built with **Node.js**, **Express**, **Prisma**, and **PostgreSQL**.  
+Deployed on [Render](https://render.com), this API demonstrates **JWT-based authentication**, **refresh token via httpOnly cookie**, and **protected routes** that fetch data from a third-party API.
+
+---
+
+## Live API
+
+**Base URL:**  
+`https://mini-blog-posts-api.onrender.com/api`
 
 ---
 
 ## Features
 
-- User Registration & Login
-- JWT Access + Refresh Token Authentication
-- HTTP-only Secure Cookies
-- Protected Routes
-- Password Hashing with `bcryptjs`
-- Database Access via Prisma ORM
-- Protected `/posts` route fetches from `jsonplaceholder.typicode.com/posts`
+- User registration and login with hashed passwords using `bcrypt`
+- JWT authentication using access and refresh tokens
+- Refresh token stored securely in an `httpOnly` cookie
+- Logout clears the refresh token
+- Protected route that returns data from [JSONPlaceholder](https://jsonplaceholder.typicode.com/posts)
+- Express middleware for auth and error handling
 
 ---
 
 ## Tech Stack
 
-- Node.js
-- Express
-- PostgreSQL
-- Prisma
-- JWT
-- bcryptjs
-- dotenv
-- cookie-parser
-- cors
+- **Node.js** + **Express.js**
+- **PostgreSQL** with **Prisma ORM**
+- **JWT** for access control
+- **bcrypt** for password hashing
+- **Render** for deployment
 
 ---
 
-## Authentication Flow
+## Auth Flow
 
-- Register: Create a user with email & password
-- Login: Receive JWT access token + refresh token
-- Access Protected Routes: Use Bearer <accessToken> header
-- Refresh Token: Call /auth/refresh to get a new access token
-- Logout: Clears the refresh token
+- Login returns an access token (in JSON) and sets a refresh token in an `httpOnly` cookie
+- Refresh endpoint issues a new access token
+- Logout clears the cookie
 
 ---
 
-## Author
+## API Routes
 
-Made by [https://github.com/hinds1ght/]
-Feel free to fork and contribute
+### Public
+
+- `POST /api/register` – Register a new user  
+- `POST /api/login` – Log in and receive tokens  
+- `POST /api/auth/refresh` – Get new access token  
+- `POST /api/logout` – Logout and clear refresh token  
+
+### Protected (Requires Access Token)
+
+- `GET /api/posts` – Returns posts from `https://jsonplaceholder.typicode.com/posts`
+
+---
+
+## Contact
+
+Questions or feedback?
+
+Email: gilyu619@gmail.com 
+GitHub: [https://github.com/hinds1ght]
