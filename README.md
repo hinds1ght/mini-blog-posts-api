@@ -17,8 +17,8 @@ A minimalist REST API for user authentication and protected blog post access usi
 
 ## Authentication Flow
 
-Register: Create a user with email & password
-Login: Receive JWT access token + refresh token
-Access Protected Routes: Use Bearer <accessToken> header
-Refresh Token: Call /auth/refresh to get a new access token
-Logout: Clears the refresh token
+- Register: Create a user with email & password
+- Login: Receive JWT access token + refresh token
+- Access Protected Routes: Use Bearer <accessToken> header
+- Refresh Token: Call /auth/refresh to get a new access token
+- Logout: Clears the refresh token
