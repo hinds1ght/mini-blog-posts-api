@@ -15,6 +15,20 @@ A minimalist REST API for user authentication and protected blog post access usi
 
 ---
 
+## Tech Stack
+
+- Node.js
+- Express
+- PostgreSQL
+- Prisma
+- JWT
+- bcryptjs
+- dotenv
+- cookie-parser
+- cors
+
+---
+
 ## Authentication Flow
 
 - Register: Create a user with email & password
