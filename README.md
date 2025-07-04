@@ -12,6 +12,7 @@ A minimalist REST API for user authentication and protected blog post access usi
 - Protected Routes
 - Password Hashing with `bcryptjs`
 - Database Access via Prisma ORM
+- Protected `/posts` route fetches from `jsonplaceholder.typicode.com/posts`
 
 ---
 
