@@ -42,5 +42,5 @@ A minimalist REST API for user authentication and protected blog post access usi
 
 ## Author
 
-Made by [(https://github.com/hinds1ght/)]
+Made by [https://github.com/hinds1ght/]
 Feel free to fork and contribute
