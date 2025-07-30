@@ -8,7 +8,7 @@ Deployed on [Render](https://render.com), this API demonstrates **JWT-based auth
 ## Live API
 
 **Base URL:**  
-`https://mini-blog-posts-api.onrender.com/api`
+`https://mini-blog-posts-api.onrender.com/api` (**Currently Down**)
 
 ---
 
